@@ -1,6 +1,4 @@
 import React from 'react';
-import { format } from 'path';
-
 class StorePicker extends React.Component {
     render(){
         return (
