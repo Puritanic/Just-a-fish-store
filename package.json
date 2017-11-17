@@ -15,12 +15,13 @@
   },
   "dependencies": {
     "history": "4.7.2",
+    "prop-types": "^15.6.0",
     "re-base": "3.2.0",
     "react": "16.1.1",
     "react-addons-css-transition-group": "15.6.2",
     "react-dom": "16.1.1",
-    "react-router-dom": "^4.2.2",    
-    "react-router": "4.2.0"
+    "react-router": "4.2.0",
+    "react-router-dom": "^4.2.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -31,6 +32,6 @@
     "styles:watch": "stylus -u autoprefixer-stylus -w ./src/css/style.styl -o ./src/css/style.css"
   },
   "eslintConfig": {
-    "extends": "./node_modules/react-scripts/.eslintrc"
+    "extends": "./.eslintrc"
   }
 }

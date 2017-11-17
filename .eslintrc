@@ -6,6 +6,13 @@
     "browser": true
   },
   "extends": "airbnb",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+        "jsx": true
+    }
+},
   "rules": {
     "indent": [2, 4],
     "semi": [ 2, "always" ],
