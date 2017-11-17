@@ -1,9 +1,55 @@
 import React from 'react';
+import { formatPrice } from "../helpers";
 
 class Order extends React.Component {
-    render() {
+    constructor(){
+        super();
+        this.renderOrder = this.renderOrder.bind(this);
+    }
+    renderOrder(key) {
+        const fish = this.props.fishes[key];
+        const count = this.props.order[key];
+
+        if (!fish || fish.status === 'unavailable') {
+            return <li key={key}> Sorry, { fish ? fish.name : 'Fish' } is no longer available!</li>
+        }
+
         return (
-            <h2>Order</h2>
+            <li key={key}>
+                <span>{ count }lbs { fish.name }</span>
+                <span className="price">{ formatPrice(count * fish.price) }</span>
+            </li>
+        )
+    }
+
+    render() {
+        const orderIds = Object.keys(this.props.order);
+        const total = orderIds.reduce((prevTotal, key) => {
+            /**
+             * fish - fishes from props.fishes
+             * count - how many of those fishes customer had bought
+             * for example if there is fish-1 in the order this will tell us how many was purchased
+             */
+            const fish = this.props.fishes[key];
+            const count = this.props.order[key];
+            const isAvailable = fish && fish.status === 'available';
+
+            if (isAvailable) {
+                return prevTotal + (count * fish.price || 0); // || 0 because sometimes fish wil be in the order, but then it will be deleted
+            }
+            return prevTotal;
+        }, 0) // We have to start reduce with the starting value of 0
+        return (
+            <div className="order-wrap">
+                <h2>Your order</h2> 
+                <ul className="order">
+                    {orderIds.map(this.renderOrder)}
+                    <li className="total">
+                        <strong>Total: </strong>
+                        {formatPrice(total)}
+                    </li>
+                </ul>
+            </div>
         );
     }
 }
