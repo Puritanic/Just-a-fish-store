@@ -14,11 +14,14 @@ class App extends React.Component {
          * bcs we cannot use keyword this otherwise
          */
         super();
-        // Bound methods to the component
+        // Bind methods to the component
         this.addFish = this.addFish.bind(this);
         this.loadSamples = this.loadSamples.bind(this);
-        this.addToOrder = this.addToOrder.bind(this);
         this.updateFish = this.updateFish.bind(this);
+        this.removeFish = this.removeFish.bind(this);
+        this.addToOrder = this.addToOrder.bind(this);
+        this.removeFromOrder = this.removeFromOrder.bind(this);
+
         // Initial state
         this.state = {
             fishes: {},
@@ -85,6 +88,15 @@ class App extends React.Component {
         this.setState({ fishes });
 
     }
+   
+    removeFish(key){
+        // Make a copy of your current state
+        const fishes = { ...this.state.fishes };
+        // We cannot use delete fishes[key] because of Firebase, so we must set it to null
+        fishes[key] = null;
+        // Update state
+        this.setState({ fishes });
+    }
 
     loadSamples() {
         this.setState({
@@ -94,13 +106,22 @@ class App extends React.Component {
 
     addToOrder(key) {
         // take a copy of our current state
-        const order = {...this.state.order}
+        const order = {...this.state.order};
         // Update or add the new number of fish ordered
         order[key] = order[key] + 1 || 1; // Check if there is that fish in order and increment it, or if it isn't add it to order
         // Update our state
         this.setState({ order });
     }
 
+    removeFromOrder(key){
+        // take a copy of our current state
+        const order = {...this.state.order};
+        // Remove order
+        delete order[key];
+        // Update state
+        this.setState({ order });
+    }
+    
     render() {
         return (
             <div className="catch-of-the-day">
@@ -113,8 +134,8 @@ class App extends React.Component {
                         }
                     </ul>
                 </div>
-                <Order fishes={ this.state.fishes } order={ this.state.order } params={ this.props.match.params }/>
-                <Inventory addFish={ this.addFish } loadSamples={ this.loadSamples } fishes={ this.state.fishes } updateFish={ this.updateFish } />
+                <Order fishes={ this.state.fishes } order={ this.state.order } params={ this.props.match.params } removeFromOrder={ this.removeFromOrder}/>
+                <Inventory addFish={ this.addFish } loadSamples={ this.loadSamples } fishes={ this.state.fishes } updateFish={ this.updateFish } removeFish={ this.removeFish } />
             </div>
         );
     }
