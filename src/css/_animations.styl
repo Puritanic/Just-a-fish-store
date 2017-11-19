@@ -21,3 +21,18 @@
     transform translate(120%)
     max-height 0
     padding 0
+
+.count-enter
+  transition all .25s
+  transform translateY(100%) // start off screen
+  &.count-enter-active
+    transform translateY(0) // place it in its normal place
+
+.count-leave
+  transition all .25s
+  position absolute
+  left 0
+  bottom 0
+  transform translateY(0)
+  &.count-leave-active
+    transform translateY(-100%)

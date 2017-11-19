@@ -1,6 +1,6 @@
 import React from 'react';
 import { getFunName } from '../helpers';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 class StorePicker extends React.Component {
     goToStore(e) {
         e.preventDefault(); // Prevent form from submitting
@@ -27,5 +27,8 @@ class StorePicker extends React.Component {
 // StorePicker.contextTypes = {
 //     router: PropTypes.object
 // }
+StorePicker.propTypes = {
+    history: PropTypes.string.isRequired
+}
 
 export default StorePicker;
