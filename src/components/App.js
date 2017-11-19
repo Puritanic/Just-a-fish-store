@@ -4,7 +4,7 @@ import Order from './Order';
 import Inventory from './Inventory';
 import Fish from './Fish';
 import sampleFishes from '../sample-fishes';
-import base from "../base";
+import {base} from "../base";
 import PropTypes from 'prop-types';
 
 class App extends React.Component {
@@ -170,6 +170,7 @@ class App extends React.Component {
                     loadSamples={this.loadSamples}
                     fishes={this.state.fishes}
                     updateFish={this.updateFish}
+                    storeId={this.props.match.params.storeId}
                     removeFish={this.removeFish}/>
             </div>
         );
