@@ -4,7 +4,7 @@ import Order from './Order';
 import Inventory from './Inventory';
 import Fish from './Fish';
 import sampleFishes from '../sample-fishes';
-import {base} from "../base";
+import { base } from "../base";
 import PropTypes from 'prop-types';
 
 class App extends React.Component {
@@ -16,24 +16,12 @@ class App extends React.Component {
          */
         super();
         // Bind methods to the component
-        this.addFish = this
-            .addFish
-            .bind(this);
-        this.loadSamples = this
-            .loadSamples
-            .bind(this);
-        this.updateFish = this
-            .updateFish
-            .bind(this);
-        this.removeFish = this
-            .removeFish
-            .bind(this);
-        this.addToOrder = this
-            .addToOrder
-            .bind(this);
-        this.removeFromOrder = this
-            .removeFromOrder
-            .bind(this);
+        this.addFish = this.addFish.bind(this);
+        this.loadSamples = this.loadSamples.bind(this);
+        this.updateFish = this.updateFish.bind(this);
+        this.removeFish = this.removeFish.bind(this);
+        this.addToOrder = this.addToOrder.bind(this);
+        this.removeFromOrder = this.removeFromOrder.bind(this);
 
         // Initial state
         this.state = {

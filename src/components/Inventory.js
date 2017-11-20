@@ -1,7 +1,7 @@
 import React from 'react';
 import AddFishForm from './AddFishForm';
 import PropTypes from 'prop-types';
-import { base, app } from '../base';
+import { app } from '../base';
 import firebase from 'firebase';
 
 const facebook = new firebase.auth.FacebookAuthProvider();
@@ -16,12 +16,22 @@ class Inventory extends React.Component {
         this.renderInventory = this.renderInventory.bind(this);
         this.renderLogin = this.renderLogin.bind(this);
         this.authenticate = this.authenticate.bind(this);
-        this.authHandler = this.authHandler.bind(this);        
+        this.authHandler = this.authHandler.bind(this);
+        this.logout = this.logout.bind(this); 
 
         this.state = {
             uid: null,
             owner: null
         }
+    }
+
+    componentDidMount(){
+        // https://firebase.google.com/docs/reference/js/firebase.auth.Auth#onAuthStateChanged
+        app.auth().onAuthStateChanged((user) => {
+            if(user){
+                this.authHandler({ user });
+            }
+        });
     }
 
     handleChange(event, key) {
@@ -37,29 +47,41 @@ class Inventory extends React.Component {
      * @memberof Inventory
      */
     authenticate(provider){
-        app.auth().signInWithPopup(provider).then((authData) => this.authHandler(authData)).catch( (err) => Error(err));
+        app.auth().signInWithPopup(provider).then((authData) => this.authHandler(authData)).catch( (err) => { throw Error(err) });
+    }
+
+    logout(){
+        app.auth().signOut();
+        this.setState({ uid: null });
     }
     /**
      * Handle data received with authenticate method
-     * @param {any} err  - check if there is error
      * @param {any} authData - Payload full of information received from authenticate()
      * @memberof Inventory
      */
     authHandler(authData) {
-        console.log(authData);
+        if(!authData){
+            console.log('Error happened');
+            return;
+        }
+        
         // Grab the store info
-        const storeRef = base.database().ref(this.props.storeId);
+        const storeRef = app.database().ref(this.props.storeId);
+
         // Query the firebase once for the store data
         storeRef.once('value', (snapshot) => {
-            const data = snapshot.value() || {};
-
+            const data = snapshot.val() || {};
             // Claim it as our own if there is no owner already
             if (!data.owner) {
                 storeRef.set({
                     owner: authData.user.uid
                 })
             }
-        })
+            this.setState({
+                uid: authData.user.uid,
+                owner: data.owner || authData.user.uid
+            });
+        });
     }
 
     renderLogin(){
@@ -98,7 +120,7 @@ class Inventory extends React.Component {
     }
 
     render() {
-        const logout = <button>Log Out!</button>
+        const logout = <button onClick={ () => this.logout() }>Log Out!</button>
         // Check if user is not logged in
         if (!this.state.uid) {
             return <div>{this.renderLogin()}</div>

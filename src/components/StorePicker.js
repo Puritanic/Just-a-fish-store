@@ -28,7 +28,7 @@ class StorePicker extends React.Component {
 //     router: PropTypes.object
 // }
 StorePicker.propTypes = {
-    history: PropTypes.string.isRequired
+    history: PropTypes.object.isRequired
 }
 
 export default StorePicker;
