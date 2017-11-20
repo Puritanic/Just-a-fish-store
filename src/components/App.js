@@ -4,7 +4,7 @@ import Order from './Order';
 import Inventory from './Inventory';
 import Fish from './Fish';
 import sampleFishes from '../sample-fishes';
-import { base } from "../base";
+import { base } from '../base';
 import PropTypes from 'prop-types';
 
 class App extends React.Component {

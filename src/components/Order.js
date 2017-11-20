@@ -1,5 +1,5 @@
 import React from 'react';
-import {formatPrice} from "../helpers";
+import { formatPrice } from "../helpers";
 import CSSTransitionGroup from 'react-addons-css-transition-group';
 import PropTypes from 'prop-types';
 
